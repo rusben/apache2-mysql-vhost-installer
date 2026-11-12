@@ -8,7 +8,7 @@ Este script crea un VirtualHost, configura una base de datos dedicada con su usu
 
 - 📦 **Instalación completa**: Apache2, MySQL Server, PHP 8.x y extensiones esenciales (`mysql`, `mbstring`, `curl`, `xml`, `json`, `cli`).
 - 🗄️ **Base de datos automatizada**: Crea una base de datos y un usuario MySQL con permisos exclusivos para el proyecto.
-- 🌐 **VirtualHost dinámico**: Configura `ServerName` (www.dominio.local) y `ServerAlias` (dominio.local) automáticamente.
+- 🌐 **VirtualHost dinámico**: Configura `ServerName` (www.dominio.internal) y `ServerAlias` (dominio.internal) automáticamente.
 - 📝 **Resolución local**: Añade las entradas necesarias al archivo `/etc/hosts` para que el dominio funcione de inmediato en el navegador.
 - 🛡️ **Compatibilidad MySQL 8.4+**: Utiliza el método de autenticación moderno (`caching_sha2_password`), evitando errores por el obsoleto `mysql_native_password`.
 - 📂 **Estructura lista**: Genera un `index.php` de prueba visual y un `.htaccess` base con `RewriteEngine` activado.
