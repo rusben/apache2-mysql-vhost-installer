@@ -2,28 +2,28 @@
 
 # ------------------------------------------------------------
 # Script para instalar entorno web básico (PHP/MySQL/Apache) en Ubuntu 26.04
-# Uso: sudo ./instalar-entorno-web.sh dominio.local
-# Nota: ServerName = www.dominio.local, ServerAlias = dominio.local
+# Uso: sudo ./instalar-entorno-web.sh dominio.internal
+# Nota: ServerName = www.dominio.internal, ServerAlias = dominio.internal
 # ------------------------------------------------------------
 
 set -e  # Salir si ocurre un error
 
-WEB_ALIAS="$1"  # Este será el ServerAlias (ej: miweb.local)
+WEB_ALIAS="$1"  # Este será el ServerAlias (ej: miweb.internal)
 
 if [ -z "$WEB_ALIAS" ]; then
-    echo "❌ Error: Debes proporcionar un nombre de dominio (ej: miweb.local)"
-    echo "Uso: $0 <dominio.local>"
+    echo "❌ Error: Debes proporcionar un nombre de dominio (ej: miweb.internal)"
+    echo "Uso: $0 <dominio.internal>"
     exit 1
 fi
 
-# Extraer el nombre base sin la extensión (ej: "miweb" de "miweb.local")
+# Extraer el nombre base sin la extensión (ej: "miweb" de "miweb.internal")
 BASE_NAME="${WEB_ALIAS%%.*}"
 TLD="${WEB_ALIAS#*.}"
 
-# Si no hay punto, asumimos .local
+# Si no hay punto, asumimos .internal
 if [[ "$WEB_ALIAS" == "$BASE_NAME" ]]; then
-    TLD="local"
-    WEB_ALIAS="${BASE_NAME}.local"
+    TLD="internal"
+    WEB_ALIAS="${BASE_NAME}.internal"
 fi
 
 # Definir ServerName y ServerAlias
