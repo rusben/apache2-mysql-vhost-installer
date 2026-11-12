@@ -81,7 +81,7 @@ mkdir -p "$PROJECT_DIR"
 chown -R "$REAL_USER":"$REAL_USER" "$PROJECT_DIR"
 cd "$PROJECT_DIR"
 
-# 5. Crear index.php básico (Sin SlimPHP)
+# 5. Crear index.php básico (Sin errores de sintaxis)
 echo "📄 Creando index.php de bienvenida..."
 cat > index.php <<EOF
 <?php
@@ -110,17 +110,16 @@ echo "<!DOCTYPE html>
         </div>
     </div>
 </body>
-</html>
+</html>";
 EOF
 
-# 6. Crear .htaccess básico (por si necesitas reescritura de URLs en el futuro)
+# 6. Crear .htaccess básico (con regla válida)
 echo "📄 Creando .htaccess..."
 cat > .htaccess <<'EOF'
 RewriteEngine On
-# Permitir que las solicitudes de archivos y directorios existentes se sirvan directamente
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-# El resto de las solicitudes se pueden manejar aquí si se añade un framework a futuro
+RewriteRule ^ index.php [QSA,L]
 EOF
 
 # 7. Crear VirtualHost
@@ -148,11 +147,16 @@ echo "⚡ Habilitando módulo rewrite y sitio..."
 a2enmod rewrite
 a2ensite "$(basename "$VHOST_FILE" .conf)"
 
-# 9. Reiniciar Apache
+# 9. Asegurar permisos correctos para Apache
+echo "🔐 Ajustando permisos para Apache..."
+chown -R www-data:www-data "$PROJECT_DIR"
+chmod -R 755 "$PROJECT_DIR"
+
+# 10. Reiniciar Apache
 echo "🔄 Reiniciando Apache..."
 systemctl restart apache2
 
-# 10. Añadir entradas al /etc/hosts
+# 11. Añadir entradas al /etc/hosts
 echo "📝 Configurando /etc/hosts..."
 HOSTS_LINE="127.0.0.1 $SERVER_NAME $SERVER_ALIAS"
 
@@ -167,7 +171,7 @@ else
     echo "ℹ️  Ya existe una entrada para $SERVER_NAME o $SERVER_ALIAS en /etc/hosts"
 fi
 
-# 11. Mostrar resumen
+# 12. Mostrar resumen
 echo ""
 echo "🎉 ¡Instalación completada con éxito!"
 echo ""
